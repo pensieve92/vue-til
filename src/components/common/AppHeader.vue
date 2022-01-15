@@ -1,12 +1,16 @@
 <template>
   <header style="padding-bottom: 20px">
     <div style="float: left">
-      <router-link to="/">TIL</router-link>
+      <router-link to="/">
+        TIL
+        <span class="username" v-if="isUserLogin">
+          {{ $store.state.username }}
+        </span>
+      </router-link>
     </div>
     <div style="float: right">
       <!--    1-->
       <template v-if="isUserLogin">
-        <span class="username">{{ $store.state.username }}</span>
         <a href="javascript:;" @click="logoutUser">Logout</a>
       </template>
       <!--    2-->
