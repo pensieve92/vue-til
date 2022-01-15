@@ -38,15 +38,17 @@ export default {
   methods: {
     async submitForm() {
       try {
+        // 비지니스 로직
         const userData = {
           username: this.username,
           password: this.password,
         };
         const { data } = await loginUser(userData);
         console.log(data.user.username);
-        this.logMessage = `${data.user.username} 님 환영합니다.`;
-        this.initForm();
-        // 비지니스 로직
+        this.$router.push('/main');
+
+        // this.logMessage = `${data.user.username} 님 환영합니다.`;
+        // this.initForm();
       } catch (error) {
         // 에러 핸들링할 코드
         console.log(error.response.data);
