@@ -8,13 +8,16 @@
       <label for="password"></label>pw:
       <input id="password" type="password" v-model="password" />
     </div>
-    <button type="submit">로그인</button>
+    <button :disabled="!isUsernameValid || !password" type="submit">
+      로그인
+    </button>
     <p>{{ logMessage }}</p>
   </form>
 </template>
 
 <script>
 import { loginUser } from '@/api';
+import { validateEmail } from '@/utils/validation';
 
 export default {
   name: 'LoginForm',
@@ -27,16 +30,31 @@ export default {
       logMessage: '',
     };
   },
+  computed: {
+    isUsernameValid() {
+      return validateEmail(this.username);
+    },
+  },
   methods: {
     async submitForm() {
-      const userData = {
-        username: this.username,
-        password: this.password,
-      };
-      const { data } = await loginUser(userData);
-      console.log(data.user.username);
-      this.logMessage = `${data.user.username} 님 환영합니다.`;
-      this.initForm();
+      try {
+        const userData = {
+          username: this.username,
+          password: this.password,
+        };
+        const { data } = await loginUser(userData);
+        console.log(data.user.username);
+        this.logMessage = `${data.user.username} 님 환영합니다.`;
+        this.initForm();
+        // 비지니스 로직
+      } catch (error) {
+        // 에러 핸들링할 코드
+        console.log(error.response.data);
+        this.logMessage = error.response.data;
+        // this.initForm();
+      } finally {
+        this.initForm();
+      }
     },
     initForm() {
       this.username = '';
