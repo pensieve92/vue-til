@@ -2,7 +2,12 @@
   <form @submit.prevent="submitForm">
     <div>
       <label for="username">id:</label>
-      <input id="username" type="text" v-model="username" />
+      <input
+        id="username"
+        :class="{ 'text-danger': isUsernameValid }"
+        type="text"
+        v-model="username"
+      />
     </div>
     <div>
       <label for="password">password: </label>
@@ -12,13 +17,14 @@
       <label for="nickname">nickname: </label>
       <input id="nickname" type="text" v-model="nickname" />
     </div>
-    <button type="submit">signup</button>
+    <button :disabled="!isUsernameValid" type="submit">회원가입</button>
     <p>{{ logMessage }}</p>
   </form>
 </template>
 
 <script>
 import { registerUser } from '@/api';
+import { validateEmail } from '@/utils/validation';
 
 export default {
   name: 'SignupForm',
@@ -29,6 +35,11 @@ export default {
       nickname: '',
       logMessage: '',
     };
+  },
+  computed: {
+    isUsernameValid() {
+      return validateEmail(this.username);
+    },
   },
   methods: {
     async submitForm() {
@@ -54,4 +65,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.text-danger {
+  border: solid 2px red;
+}
+</style>
