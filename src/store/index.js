@@ -7,9 +7,18 @@ export default new Vuex.Store({
   state: {
     username: '',
   },
+  getters: {
+    // computed
+    isLogin(state) {
+      return state.username !== '';
+    },
+  },
   mutations: {
     setUsername(state, username) {
       state.username = username;
+    },
+    clearUsername(state) {
+      state.username = '';
     },
   },
 });
