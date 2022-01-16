@@ -1,13 +1,13 @@
 <template>
-$END$
+  <div>
+    <h1>생성페이지</h1>
+  </div>
 </template>
 
 <script>
 export default {
-name: "PostAddPage"
-}
+  name: 'PostAddPage',
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
