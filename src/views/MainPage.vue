@@ -9,6 +9,9 @@
         :postItem="postItem"
       />
     </ul>
+    <router-link class="create-button" to="/add">
+      <i class="ion-md-add icon"></i>
+    </router-link>
   </div>
 </template>
 
