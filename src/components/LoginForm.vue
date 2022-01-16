@@ -16,9 +16,7 @@
 </template>
 
 <script>
-import { loginUser } from '@/api';
 import { validateEmail } from '@/utils/validation';
-import { saveAuthToCookie, saveUserToCookie } from '@/utils/cookies';
 
 export default {
   name: 'LoginForm',
@@ -44,12 +42,10 @@ export default {
           username: this.username,
           password: this.password,
         };
-        const { data } = await loginUser(userData);
-        console.log(data.token);
-        this.$store.commit('setToken', data.token);
-        this.$store.commit('setUsername', data.user.username);
-        saveAuthToCookie(data.token);
-        saveUserToCookie(data.user.username);
+        // store에서 비동기처리가 끝나고 난 후에
+        // this.$router.push('/main');가 진행되어야 하기 때문에
+        // await를 꼭 붙여주어야 한다.
+        await this.$store.dispatch('LOGIN', userData);
         this.$router.push('/main');
       } catch (error) {
         // 에러 핸들링할 코드
