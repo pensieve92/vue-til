@@ -21,7 +21,7 @@
   </div>
 </template>
 <script>
-import { createPost } from '@/api';
+import { createPost } from '@/api/posts';
 
 export default {
   name: 'PostAddForm',
