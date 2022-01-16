@@ -10,8 +10,12 @@
         <div>
           <label for="contents">Contents</label>
           <textarea id="contents" type="text" rows="5" v-model="contents" />
+          <p v-if="!isContentsValid" class="validation-text waring">
+            Text is too long
+          </p>
         </div>
         <button type="submit" class="btn">Create</button>
+        <p class="log">{{ logMessage }}</p>
       </form>
     </div>
   </div>
@@ -25,15 +29,26 @@ export default {
     return {
       title: '',
       contents: '',
+      logMessage: '',
     };
+  },
+  computed: {
+    isContentsValid() {
+      return this.contents.length <= 200;
+    },
   },
   methods: {
     async submitForm() {
-      const response = await createPost({
-        title: this.title,
-        contents: this.contents,
-      });
-      console.log(response);
+      try {
+        const response = await createPost({
+          title: this.title,
+          contents: this.contents,
+        });
+        console.log(response);
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.logMessage = error.response.data.message;
+      }
     },
   },
 };
