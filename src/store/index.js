@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { getAuthFromCookie, getUserFromCookie } from '@/utils/cookies';
+import { loginUser } from '@/api';
+import { saveAuthToCookie, saveUserToCookie } from '@/utils/cookies';
 
 Vue.use(Vuex);
 
@@ -24,6 +26,19 @@ export default new Vuex.Store({
     },
     setToken(state, token) {
       this.state.token = token;
+    },
+  },
+  actions: {
+    async LOGIN({ commit }, userData) {
+      const { data } = await loginUser(userData);
+      console.log(data.token);
+      commit('setToken', data.token);
+      commit('setUsername', data.user.username);
+      saveAuthToCookie(data.token);
+      saveUserToCookie(data.user.username);
+      // 명시적으로 표현하기위해서 return data;를 해준다.
+      // 없어도 되긴함. 나주엥 활용
+      return data;
     },
   },
 });
