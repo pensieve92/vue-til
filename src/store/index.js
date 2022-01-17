@@ -26,12 +26,13 @@ export default new Vuex.Store({
       state.username = username;
     },
     clearUsername(state) {
-      deleteCookie('til_user');
-      deleteCookie('til_auth');
       state.username = '';
     },
     setToken(state, token) {
       this.state.token = token;
+    },
+    clearToken(state) {
+      state.token = '';
     },
   },
   actions: {
