@@ -3,6 +3,7 @@
     <div>
       <label for="username"></label>id:
       <input id="username" type="text" v-model="username" />
+      <span class="warning">Plese enter an email address</span>
     </div>
     <div>
       <label for="password"></label>pw:
